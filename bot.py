@@ -19,13 +19,15 @@ def run_health_server():
     server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
     server.serve_forever()
 
-# --- TOKENS & API KEYS ---
+# --- TOKENS & API KEYS FROM ENVIRONMENT ---
 BOT_TOKEN = "8934104055:AAHGJgS3JNNUuOb7WpX5nv3b4OpOFsV-BeE"
-# Pehle Render ke variable se key uthayega, agar wahan nahi mili toh niche wali nayi key use karega
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AQ.Ab8RN6JY3Grpepx1-ByJopJ5RgPcDNc1t4B1JclVxRXO8Ln8vwnew")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Gemini Configuration
-genai.configure(api_key=GEMINI_API_KEY)
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+else:
+    print("ERROR: GEMINI_API_KEY not found in Render Environment Variables!")
 
 ANAYA_PROMPT = """
 You are a female Telegram bot named 'Anaya'. You talk in Hindi/Hinglish language.
@@ -69,7 +71,6 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = update.effective_user.first_name
     chat_type = update.effective_chat.type
 
-    # If it's a group, only reply when mentioned or replied to
     if chat_type != "private":
         if "anaya" not in text.lower() and not (update.message.reply_to_message and update.message.reply_to_message.from_user.username == context.bot.username):
             return
@@ -96,5 +97,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
     
