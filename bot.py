@@ -6,7 +6,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 import google.generativeai as genai
 
-# --- KOYEB/RENDER PORT BINDING ---
+# --- PORT BINDING FOR RENDER ---
 class HealthCheckHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -19,11 +19,12 @@ def run_health_server():
     server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
     server.serve_forever()
 
-# --- ATTACHED TOKENS ---
+# --- TOKENS & API KEYS ---
 BOT_TOKEN = "8934104055:AAHGJgS3JNNUuOb7WpX5nv3b4OpOFsV-BeE"
-GEMINI_API_KEY = "AQ.Ab8RN6LUt3umb3zsLkU7UKS5uyAVJcIpySGwSTgQSpsA6U7MkQ"
+# Pehle Render ke variable se key uthayega, agar wahan nahi mili toh niche wali nayi key use karega
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AQ.Ab8RN6JY3Grpepx1-ByJopJ5RgPcDNc1t4B1JclVxRXO8Ln8vwnew")
 
-# Gemini Config
+# Gemini Configuration
 genai.configure(api_key=GEMINI_API_KEY)
 
 ANAYA_PROMPT = """
@@ -68,6 +69,7 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = update.effective_user.first_name
     chat_type = update.effective_chat.type
 
+    # If it's a group, only reply when mentioned or replied to
     if chat_type != "private":
         if "anaya" not in text.lower() and not (update.message.reply_to_message and update.message.reply_to_message.from_user.username == context.bot.username):
             return
@@ -94,4 +96,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
     
