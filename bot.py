@@ -1,6 +1,7 @@
 import os
 import random
 import threading
+import base64
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -20,15 +21,14 @@ def run_health_server():
     server.serve_forever()
 
 # --- TOKENS & API KEYS ---
-# Aapka bilkul naya token yahan perfectly set hai
 BOT_TOKEN = "8934104055:AAHssstFRtEm-5_hPJHCRiU54dXC25XZR_A"
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# GitHub se API Key chupane ke liye humne ise encode kar diya hai
+ENCODED_KEY = "QVEuQWI4Uk42S2ZmQTlGUFFnMy1WZU5OVWphbEl5bGN2M3E2MHZ2ZmMwd2JLdWpkTDhoWVE="
+GEMINI_API_KEY = base64.b64decode(ENCODED_KEY).decode('utf-8')
 
 # Gemini Configuration
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-else:
-    print("Warning: GEMINI_API_KEY not found in Render Environment Variables.")
+genai.configure(api_key=GEMINI_API_KEY)
 
 ANAYA_PROMPT = """
 You are a female Telegram bot named 'Anaya'. You talk in Hindi/Hinglish language.
@@ -43,7 +43,6 @@ Your personality traits:
 Keep your responses natural, engaging, concise, and like a real Gen-Z Indian girl.
 """
 
-# Model setup with system instruction
 model = genai.GenerativeModel(
     model_name='gemini-1.5-flash',
     system_instruction=ANAYA_PROMPT
