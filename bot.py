@@ -1,4 +1,4 @@
-  import os
+import os
 import random
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -20,7 +20,7 @@ def run_health_server():
     server.serve_forever()
 
 # --- TOKENS & API KEYS ---
-# Yahan hum direct token de rahe hain bina kisi galti ke
+# Token ko seedhe yahan daal diya hai taaki InvalidToken error na aaye
 BOT_TOKEN = "8934104055:AAG6xKyeM013R6FKGz91umhJm9q7VJZe0Bw"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
@@ -28,7 +28,6 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 else:
-    # Agar Render se key nahi milti toh fallback safe mode
     print("Warning: GEMINI_API_KEY not found in Render Environment Variables.")
 
 ANAYA_PROMPT = """
@@ -99,4 +98,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
+  
