@@ -20,8 +20,8 @@ def run_health_server():
     server.serve_forever()
 
 # --- TOKENS & API KEYS ---
-# Token ko seedhe yahan daal diya hai taaki InvalidToken error na aaye
-BOT_TOKEN = "8934104055:AAG6xKyeM013R6FKGz91umhJm9q7VJZe0Bw"
+# Aapka bilkul naya token yahan perfectly set hai
+BOT_TOKEN = "8934104055:AAHssstFRtEm-5_hPJHCRiU54dXC25XZR_A"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Gemini Configuration
@@ -98,4 +98,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-  
+    
