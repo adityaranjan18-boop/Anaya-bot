@@ -21,7 +21,7 @@ def run_health_server():
     server.serve_forever()
 
 # --- TOKENS & API KEYS ---
-BOT_TOKEN = "8934104055:AAHssstFRtEm-5_hPJHCRiU54dXC25XZR_A"
+BOT_TOKEN = "8934104055:AAFK6gXRBPz9OW6FL184iX2P65E17gEtvRk"
 
 # GitHub se API Key chupane ke liye humne ise encode kar diya hai
 ENCODED_KEY = "QVEuQWI4Uk42S2ZmQTlGUFFnMy1WZU5OVWphbEl5bGN2M3E2MHZ2ZmMwd2JLdWpkTDhoWVE="
