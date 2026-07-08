@@ -4,10 +4,9 @@ import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from google import genai
-from google.genai import types
+import google.generativeai as genai
 
-# --- KOYEB PORT BINDING (DUMMY SERVER) ---
+# --- KOYEB/RENDER PORT BINDING ---
 class HealthCheckHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -24,7 +23,8 @@ def run_health_server():
 BOT_TOKEN = "8934104055:AAHGJgS3JNNUuOb7WpX5nv3b4OpOFsV-BeE"
 GEMINI_API_KEY = "AQ.Ab8RN6LUt3umb3zsLkU7UKS5uyAVJcIpySGwSTgQSpsA6U7MkQ"
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+# Gemini Config
+genai.configure(api_key=GEMINI_API_KEY)
 
 ANAYA_PROMPT = """
 You are a female Telegram bot named 'Anaya'. You talk in Hindi/Hinglish language.
@@ -38,6 +38,12 @@ Your personality traits:
 7. Always remember what the user said previously in the chat context (be adaptive).
 Keep your responses natural, engaging, concise, and like a real Gen-Z Indian girl.
 """
+
+# Model setup with system instruction
+model = genai.GenerativeModel(
+    model_name='gemini-1.5-flash',
+    system_instruction=ANAYA_PROMPT
+)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Hii! Mai Anaya hoon. ✨ Aapki cute, funny aur thodi si Nakhreli dost. Mujhe group me add karo aur fir kamaal dekho! 🥰")
@@ -67,14 +73,7 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
 
     try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=f"User {user_name} says: {text}",
-            config=types.GenerateContentConfig(
-                system_instruction=ANAYA_PROMPT,
-                temperature=0.7
-            )
-        )
+        response = model.generate_content(f"User {user_name} says: {text}")
         await update.message.reply_text(response.text)
     except Exception as e:
         print(f"Error: {e}")
@@ -95,3 +94,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
