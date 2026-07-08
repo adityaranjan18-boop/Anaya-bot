@@ -1,4 +1,4 @@
-import os
+  import os
 import random
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -19,15 +19,17 @@ def run_health_server():
     server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
     server.serve_forever()
 
-# --- TOKENS & API KEYS FROM ENVIRONMENT ---
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+# --- TOKENS & API KEYS ---
+# Yahan hum direct token de rahe hain bina kisi galti ke
+BOT_TOKEN = "8934104055:AAG6xKyeM013R6FKGz91umhJm9q7VJZe0Bw"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Gemini Configuration
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 else:
-    print("ERROR: GEMINI_API_KEY not found in Render Environment Variables!")
+    # Agar Render se key nahi milti toh fallback safe mode
+    print("Warning: GEMINI_API_KEY not found in Render Environment Variables.")
 
 ANAYA_PROMPT = """
 You are a female Telegram bot named 'Anaya'. You talk in Hindi/Hinglish language.
