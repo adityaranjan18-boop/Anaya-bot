@@ -20,7 +20,7 @@ def run_health_server():
     server.serve_forever()
 
 # --- TOKENS & API KEYS FROM ENVIRONMENT ---
-BOT_TOKEN = "8934104055:AAG6xKyeM013R6FKGz9lumhJm9q7VJZe0Bw
+BOT_TOKEN = "8934104055:AAG6xKyeM013R6FKGz91umhJm9q7VJZe0Bw"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Gemini Configuration
