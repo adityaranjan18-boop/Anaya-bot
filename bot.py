@@ -21,7 +21,7 @@ def run_health_server():
     server.serve_forever()
 
 # --- TOKENS & API KEYS ---
-BOT_TOKEN = "8934104055:AAHssstFRtEm-5_hPJHCRiU54dXC25XZR_A"
+BOT_TOKEN = "8934104055:AAFK6gXRBPz9OW6FL184iX2P65E17gEtvRk"
 
 # Aapki bilkul naye waali Gemini Key yahan perfectly encrypted set hai
 ENCODED_KEY = "QVEuQWI4Uk42S19nMEwzQjd3VHl6OHJXWWhPQ3pVRHFOY3VPckdNSDNZWmNiZVB0d0JZZVE="
