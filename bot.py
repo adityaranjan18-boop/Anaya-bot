@@ -1,7 +1,6 @@
 import os
 import random
 import threading
-import base64
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -21,12 +20,8 @@ def run_health_server():
     server.serve_forever()
 
 # --- TOKENS & API KEYS ---
-# Aapka ekdum fresh naya Telegram token yahan set hai
 BOT_TOKEN = "8934104055:AAFkG3e98szkqBFZ0zIdJxtg12Am5YASLIs"
-
-# Nayi Gemini Key yahan perfectly encrypted set hai
-ENCODED_KEY = "QVEuQWI4Uk42S19nMEwzQjd3VHl6OHJXWWhPQ3pVRHFOY3VPckdNSDNZWmNiZVB0d0JZZVE="
-GEMINI_API_KEY = base64.b64decode(ENCODED_KEY).decode('utf-8')
+GEMINI_API_KEY = "AQ.Ab8RN6K_g0L3B7wTyz8rWYhOCzVDqNcuOrGMH3YZcbePtwBYeQ"
 
 # Gemini Configuration
 genai.configure(api_key=GEMINI_API_KEY)
@@ -94,9 +89,8 @@ def main():
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
 
     print("Anaya Bot is active...")
-    app.run_polling()
+    # drop_pending_updates=True lagane se saare conflicts apne aap clear ho jayenge!
+    app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
     main()
-    
-
